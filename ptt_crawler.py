@@ -43,18 +43,21 @@ class PTT_Crawler:
         )
         soup = BeautifulSoup(do.text, 'lxml')
         find_info = soup.find_all('span',{'class','article-meta-value'})
-        if(find_info):
+        try:
             author = find_info[0].text
             title = find_info[2].text
             date = find_info[3].text
-        else:
+        except Exception as e:
             author = None
             title = None
             date = None
-        if soup.find_all('div',{'class','article-metaline'}):
+        try:
             content = soup.find_all('div',{'class','article-metaline'})[-1].next_sibling.strip()
-        else:
+        except Exception as e:
             content = None
+
+       
+      
         return {'title' : title,'author' : author,'date' : date,'content' : content}
 
 board = "Gossiping"
