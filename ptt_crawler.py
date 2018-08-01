@@ -16,6 +16,7 @@ class PTT_Crawler:
         
     def run(self):
         res = []
+        print("Start run")
         for page in range(0,self.page):
             result = self.session.get(
                 self.url,
@@ -25,7 +26,9 @@ class PTT_Crawler:
             url = 'https://www.ptt.cc' + self.getprevious(soup)
             if(len(res) == 0):
                 res = [link for link in link_list]
+                
             else:
+                ##print(res)
                 res.extend(link_list)
         post_list = [self.getlistinfo(link) for link in res]
         return post_list
@@ -55,7 +58,8 @@ class PTT_Crawler:
             content = soup.find_all('div',{'class','article-metaline'})[-1].next_sibling.strip()
         except Exception as e:
             content = None
-
+        print(content)
+        print("======================================")
        
       
         return {'title' : title,'author' : author,'date' : date,'content' : content}
